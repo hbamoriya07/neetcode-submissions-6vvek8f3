@@ -1,0 +1,31 @@
+func combinationSum(nums []int, target int) [][]int {
+    var res [][]int
+	var curr []int
+	var dfs func(int, int)
+
+	sort.Ints(nums)
+	dfs = func(index, sum int) {
+		if index >= len(nums) || sum > target {
+			return
+		}
+
+		if sum == target {
+			temp := make([]int, len(curr))
+			copy(temp, curr)
+			res = append(res, temp)
+			return
+		}
+
+		curr = append(curr, nums[index])
+		
+		dfs(index, sum+nums[index])
+
+		curr = curr[:len(curr)-1]
+
+		dfs(index+1, sum)
+	}
+
+	dfs(0, 0)
+
+	return res
+}
